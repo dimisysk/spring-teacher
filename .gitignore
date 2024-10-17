@@ -2,6 +2,12 @@
 **/build/
 !src/**/build/
 
+# Ignore application properties files
+src/main/resources/application.properties
+src/main/resources/application-dev.properties
+src/main/resources/application-test.properties
+
+
 # Ignore Gradle GUI config
 gradle-app.setting
 
