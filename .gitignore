@@ -7,6 +7,10 @@ src/main/resources/application.properties
 src/main/resources/application-dev.properties
 src/main/resources/application-test.properties
 
+# But don't ignore other files in resources
+!src/main/resources/static/
+!src/main/resources/templates/
+
 
 # Ignore Gradle GUI config
 gradle-app.setting
