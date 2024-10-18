@@ -37,7 +37,7 @@ public class TeacherServiceImpl implements ITeacherService {
         try {
             teacher = teacherRepository.save(Mapper.mapToTeacher(dto));
             if(teacher.getId() == null) {
-                throw new Exception("Insert error")
+                throw new Exception("Insert error");
             }
             log.info("Inserted teacher with id: " + teacher.getId());
         } catch (Exception e) {
@@ -54,11 +54,10 @@ public class TeacherServiceImpl implements ITeacherService {
         Teacher updatedTeacher;
         try {
             teacher = teacherRepository.findTeacherById(dto.getId());
-            if(teacher == null) {
-                throw new EntityNotFoundException(Teacher.class, dto.getId());
+            if (teacher == null) throw new EntityNotFoundException(Teacher.class, dto.getId());
             updatedTeacher = teacherRepository.save(Mapper.mapToTeacher(dto));
             log.info("Updated teacher with id: " + updatedTeacher.getId());
-            }
+
 
         } catch (EntityNotFoundException e) {
             log.error(e.getMessage());
