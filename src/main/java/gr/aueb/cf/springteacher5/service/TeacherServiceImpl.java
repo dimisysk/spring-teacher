@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -67,17 +68,51 @@ public class TeacherServiceImpl implements ITeacherService {
     }
 
     @Override
+    @Transactional
     public Teacher deleteTeacher(Long id) throws EntityNotFoundException {
-        return null;
+        Teacher teacher;
+
+        try {
+            teacher = teacherRepository.findTeacherById(id);
+            if (teacher == null) throw new EntityNotFoundException(Teacher.class, id);
+            teacherRepository.deleteById(id);
+            log.info("Deleted teacher with id: " + id);
+
+        } catch (EntityNotFoundException e) {
+            log.error(e.getMessage());
+            throw e;
+        }
+        return teacher;
     }
 
     @Override
     public List<Teacher> getTeachersByLastname(String lastname) throws EntityNotFoundException {
-        return List.of();
+        List<Teacher> teachers = new ArrayList<>();
+
+        try {
+            teachers = teacherRepository.findByLastnameStartingWith(lastname);
+            if(teachers.isEmpty()) throw new EntityNotFoundException(Teacher.class,0L);
+            log.info("Found " + teachers.size() + " teachers with lastname starting with: " + lastname);
+        } catch (EntityNotFoundException e) {
+            log.error(e.getMessage());
+            throw e;
+        }
+        return teachers;
+
     }
 
     @Override
     public Teacher getTeacherById(Long id) throws EntityNotFoundException {
-        return null;
+        Teacher teacher;
+
+        try {
+            teacher = teacherRepository.findTeacherById(id);
+            if(teacher == null) throw new EntityNotFoundException(Teacher.class, id);
+            log.info("Found " + teacher.getId() + " teacher with id: " + id);
+        } catch (EntityNotFoundException e) {
+            log.error(e.getMessage());
+            throw e;
+        }
+        return teacher;
     }
 }
